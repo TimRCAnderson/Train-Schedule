@@ -9,9 +9,7 @@ $(document).ready(function() {
   var database = firebase.database();
 
   $form.submit(function(event) {
-    debugger;
     event.preventDefault();
-    console.log("train added");
     database.ref().push({
       name: $name.val(),
       dest: $dest.val(),
@@ -24,22 +22,13 @@ $(document).ready(function() {
     var current = snapshot.val();
     var now = moment();
     var tStart = moment(current.time, "HH:mm");
-    console.log(current);
     // NA = ((CT-ST)/FR + 1) * FR + ST
     // MA = NA - CT
-
     var nextTrain = moment(tStart.add((Math.ceil((now.diff(tStart, "minutes")/current.freq)) * current.freq), "minutes"));
-    console.log(nextTrain.format("HH:mm"));
 
     var minAway = nextTrain.diff(now, "minutes");
 
     var timediff = moment().diff(moment(current.time, "HH:mm"), "minutes");
-    console.log("Train start: " + moment(current.time, "HH:mm"));
-    console.log(current.time);
-    console.log(moment(current.time, "HH:mm"));
-    console.log(timediff);
-    console.log(moment(current.time, "HH:mm").toNow())
-    console.log(moment().startOf('day').add(moment(current.time, "HH:mm")));
     $table.append(`<tr><td>${
       current.name
     }</td><td>${
@@ -53,4 +42,3 @@ $(document).ready(function() {
     }</td></tr>`);
   });
 });
-console.log("javascript loaded");
